@@ -3,7 +3,7 @@
 # shell script to convert .xopp and pdf files to pdf, and put prepend the file 
 # name with altered_
 
-ALL_FILES=$(find  -- *.*  -maxdepth 0)
+ALL_FILES=$(find  -- *.*  -maxdepth 0 -type f)
 
 for FILE in $ALL_FILES
 do

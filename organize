@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/env bash
 
 # Shell script to organize files into seperate directories accoding to their 
 # file's extensions
