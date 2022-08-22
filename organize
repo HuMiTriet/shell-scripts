@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Shell script to organize files into seperate directories accoding to their 
+# file's extensions
+
+EXTENSIONS=$(find  -- *.*  -maxdepth 0 -type f | awk -F'.' '{print $NF}' | sort -u) 
+
+for ENDING in $EXTENSIONS
+do
+
+  if [[ ! -d "$ENDING" ]] 
+  then
+    mkdir "$ENDING"
+  fi
+
+  mv -- *."$ENDING" "$ENDING"
+
+done

@@ -1,0 +1,34 @@
+#!/bin/env bash
+
+# shell script to convert .xopp and pdf files to pdf, and put prepend the file 
+# name with altered_
+
+ALL_FILES=$(find  -- *.*  -maxdepth 0)
+
+for FILE in $ALL_FILES
+do
+  EXTENSION="${FILE##*.}"
+  FILE_NAME="${FILE%.*}"
+  HAS_XOURNAL=false
+
+  # skip over directory
+  if [[ "$EXTENSION" = "$FILE_NAME" ]]
+    then
+      continue
+  fi
+
+  NEW_FILE=altered_"$FILE_NAME".pdf 
+
+  if [[ "$EXTENSION" = "xopp" ]]
+  then
+    HAS_XOURNAL=true
+    xournalpp -p "$NEW_FILE" "$FILE"
+
+  elif [[ "$EXTENSION" = "pdf" && "$HAS_XOURNAL" = false ]]
+  then
+    cp "$FILE" "$NEW_FILE"
+  fi
+
+done
+
+exit 0
