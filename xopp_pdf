@@ -11,12 +11,6 @@ do
   FILE_NAME="${FILE%.*}"
   HAS_XOURNAL=false
 
-  # skip over directory
-  if [[ "$EXTENSION" = "$FILE_NAME" ]]
-    then
-      continue
-  fi
-
   NEW_FILE=altered_"$FILE_NAME".pdf 
 
   if [[ "$EXTENSION" = "xopp" ]]
