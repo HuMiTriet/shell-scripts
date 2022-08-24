@@ -3,7 +3,8 @@
 # Shell script to organize files into seperate directories accoding to their 
 # file's extensions
 
-EXTENSIONS=$(find  -- *.*  -maxdepth 0 -type f | awk -F'.' '{print $NF}' | sort -u) 
+EXTENSIONS=$(find  -- *.*  -maxdepth 0 -not -path '.*'  -type f | \
+              awk -F'.' '{print $NF}' | uniq -d) 
 
 for ENDING in $EXTENSIONS
 do
