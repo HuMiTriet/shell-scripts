@@ -1,0 +1,23 @@
+#!/bin/bash
+
+JUMP_CONTEXT="$HOME/jump_context.txt"
+# title # program@./path/to/file.ext
+
+declare -A JUMP_ARRAY
+
+while read -r line; do
+  title=$(awk -F\# '{print $1}' <<< "$line")
+  raw_action=$(echo "$line" | awk -F\# '{print $2}' )
+  uri=$(echo "$raw_action" | awk -F@ '{print $NF}')
+  uri="'$uri'"
+  program=$(echo "$raw_action" | awk -F@ '{print $1}') 
+  action="$program $uri"
+  JUMP_ARRAY["$title"]="$action"
+done < <(cat "$JUMP_CONTEXT")
+
+choice=$(printf '%s\n' "${!JUMP_ARRAY[@]}" \
+  | rofi -matching normal -dmenu -i -l 9 -p "Jump to: ")
+
+if [[ -n "$choice" ]]; then
+  eval "${JUMP_ARRAY["$choice"]}"
+fi

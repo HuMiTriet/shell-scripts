@@ -3,13 +3,18 @@
 # Shell script to organize files into seperate directories accoding to their 
 # file's extensions
 
-EXTENSIONS=$(find  -- *.*  -maxdepth 0 -not -path '.*'  -type f | \
-              awk -F'.' '{print $NF}' | uniq -d) 
+EXTENSIONS=$(find  -- *.*  -maxdepth 1 -not -path '.*'  -type f | \
+              awk -F'.' '{print $NF}' | sort) 
 
-for ENDING in $EXTENSIONS
+DUPLICATE=$(echo "$EXTENSIONS" | uniq -d )
+
+UNIQUE=$(echo "$EXTENSIONS" | uniq -u )
+
+
+for ENDING in $DUPLICATE
 do
 
-  if [[ ! -d "$ENDING" ]] 
+  if [[ ! -d "$ENDING" ]]
   then
     mkdir "$ENDING"
   fi
@@ -17,3 +22,17 @@ do
   mv -- *."$ENDING" "$ENDING"
 
 done
+
+for ENDING in $UNIQUE
+do
+   for file in $ENDING
+   do
+     if [[ -e "$file" ]]
+     then
+        mv -- *."$ENDING" "$ENDING"
+     fi
+   done 
+
+done
+
+find . -maxdepth 1 -type d -empty -delete

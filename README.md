@@ -1,3 +1,1 @@
-# shell script ideas
-
-# Written by Tam and Triet
+# A collection of useful shell scripts
